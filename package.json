@@ -1,0 +1,30 @@
+{
+  "name": "eshop",
+  "version": "1.0.0",
+  "description": "Backend API for Eshop",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajithsolairaj/E-commerce-API.git"
+  },
+  "author": "Ajith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajithsolairaj/E-commerce-API/issues"
+  },
+  "homepage": "https://github.com/ajithsolairaj/E-commerce-API#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.0",
+    "morgan": "^1.10.0"
+  }
+}
