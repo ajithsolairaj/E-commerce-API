@@ -3,6 +3,7 @@ const { default: mongoose } = require("mongoose");
 const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
 
 require("dotenv/config");
 
@@ -11,6 +12,8 @@ const productRoutes = require("./routes/productRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/errorHandler");
 
 const api = process.env.API_URL;
 
@@ -21,6 +24,8 @@ app.options("*", cors);
 // middleware
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use(authJwt());
+app.use(errorHandler);
 
 // to access matching Routes middleware
 app.use(`${api}/products`, productRoutes);
@@ -30,7 +35,11 @@ app.use(`${api}/user`, userRoutes);
 
 // connecting Database
 mongoose
-  .connect(process.env.CONNECTION_STRING)
+  .connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "My-shop",
+  })
   .then(() => {
     console.log("connected to database");
   })
