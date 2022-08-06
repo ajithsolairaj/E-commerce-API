@@ -3,7 +3,6 @@ const { default: mongoose } = require("mongoose");
 const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
-const bcrypt = require("bcryptjs");
 
 require("dotenv/config");
 
@@ -25,20 +24,21 @@ app.options("*", cors);
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authJwt());
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(errorHandler);
 
 // to access matching Routes middleware
 app.use(`${api}/products`, productRoutes);
 app.use(`${api}/category`, categoryRoutes);
-app.use(`${api}/order`, orderRoutes);
-app.use(`${api}/user`, userRoutes);
+app.use(`${api}/orders`, orderRoutes);
+app.use(`${api}/users`, userRoutes);
 
 // connecting Database
 mongoose
   .connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: "My-shop",
+    dbName: process.env.DB_NAME,
   })
   .then(() => {
     console.log("connected to database");
@@ -47,7 +47,8 @@ mongoose
     console.log(err);
   });
 
+const PORT = process.env.PORT || 3000;
 // listening to server
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("server is running at http://localhost:3000");
 });

@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   });
   category = await category.save();
   if (!category) {
-    return res.status(404).send("the category cannot be found");
+    return res.status(500).send("the category cannot be found");
   }
   res.send(category);
 });
@@ -51,11 +51,11 @@ router.delete("/:id", (req, res) => {
           success: false,
           message: "error deleting category:category not found",
         });
-      }
-      return res.status(200).json({
-        success: true,
-        message: "category deleted",
-      });
+      } else
+        return res.status(200).json({
+          success: true,
+          message: "category deleted",
+        });
     })
     .catch((err) => {
       return res.status(400).json({ success: false, error: err });
